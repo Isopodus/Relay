@@ -35,7 +35,7 @@ class Assembly:
         return f'0001{reg_a}{reg_b}'
 
     def LDD(self, reg_a, reg_b):
-        return f'001000{reg_a}'
+        return f'0010{reg_a}00'
 
     def MOV(self, reg_a, reg_b):
         return f'0011{reg_a}{reg_b}'
