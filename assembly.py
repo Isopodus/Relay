@@ -58,6 +58,9 @@ class Assembly:
     def JMZ(self, reg_a, reg_b):
         return f'01100001'
 
+    def CMP(self, reg_a, reg_b):
+        return f'0111{reg_a}{reg_b}'
+        
     def ADD(self, reg_a, reg_b):
         return f'1000{reg_a}{reg_b}'
 
