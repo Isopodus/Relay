@@ -2,7 +2,7 @@
 |Instruction	|Explanation	|Bitcode	|Description|
 |--|--|--|--|
 |LDR RA RB			|RA <- RB ADDR|0000RARB	|Read data from RAM from RB address into RA|
-|SDR RA RB			|RA -> RB ADDR|0001RARB	|Store data from RA into RAM by RB address|
+|SDR RA RB			|RA -> RB ADDR|0001RARB	|Store data from RA into RAM at RB address|
 |LDD RA DATA		|DATA -> RA|0010RA00 DATADATA	|Load data into RA|
 |MOV RA RB			|RA <- RB|0011RARB	|Copy data from RB to RA|
 |JMPR RA ADDR		|RA ADDR -> IAR|0100RA00	|Jump to instruction in RAM at RA address|
