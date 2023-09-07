@@ -40,9 +40,6 @@ class Assembly:
     def MOV(self, reg_a, reg_b):
         return f'0011{reg_a}{reg_b}'
 
-    def JMPR(self, reg_a, reg_b):
-        return f'0100{reg_a}00'
-
     def JMP(self, reg_a, reg_b):
         return f'01010000'
 
@@ -81,3 +78,6 @@ class Assembly:
 
     def HLT(self, reg_a, reg_b):
         return f'11100000'
+
+    def NOP(self, reg_a, reg_b):
+        return f'11111111'

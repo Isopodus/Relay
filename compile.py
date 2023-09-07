@@ -9,5 +9,8 @@ if __name__ == "__main__":
             bytecode = assembly.compile(program)
             print(f"Program size: {len(bytecode.split(' ')) - 1} bytes")
             print(bytecode)
+            for word in bytecode.split(' '):
+                if word:
+                    print(bin(int(word, 16))[2:])
     else:
         print('No program filename specified!')
