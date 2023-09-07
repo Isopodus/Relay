@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 int s = 5;
-int d = 500;
+int d = 150;
 
 void setup() {
 	for (int i = 0; i < 6; i++)
@@ -10,6 +10,9 @@ void setup() {
 		digitalWrite(2 + i, LOW);
 	}
 	pinMode(8, INPUT);
+
+	pinMode(9, INPUT_PULLUP);
+
 	pinMode(12, OUTPUT);
 	pinMode(13, OUTPUT);
 	digitalWrite(12, LOW);
@@ -31,7 +34,7 @@ void doClock() {
 
 void loop()
 {
-	if (digitalRead(8) == HIGH) {
+	if (digitalRead(9) == LOW || digitalRead(8) == HIGH) {
 		doClock();
 
 		digitalWrite(s + 2, LOW);
@@ -44,14 +47,17 @@ void loop()
 		digitalWrite(s + 2, HIGH);
 		delay(d / 6);
 	} else {
-		s = 5;
+		// s = 5;
 		digitalWrite(13, LOW);
 		digitalWrite(12, LOW);
-		for (int i = 0; i < 6; i++)
-		{
-			digitalWrite(2 + i, LOW);
-		}
+		// for (int i = 0; i < 6; i++)
+		// {
+		// 	digitalWrite(2 + i, LOW);
+		// }
 		
-		digitalWrite(s + 2, HIGH);
+		// digitalWrite(s + 2, HIGH);
+	}
+	if (digitalRead(8) == LOW) {
+		delay(500);
 	}
 }

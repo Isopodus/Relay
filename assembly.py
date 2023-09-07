@@ -24,7 +24,7 @@ class Assembly:
             if instuction:
                 bitcode = instuction(reg_a, reg_b)
                 # print(bitcode)
-                compiled_bytes += hex(int(bitcode, base=2))[2:] + ((' ' + hex(int(data, base=2))[2:] + ' ') if data != None else ' ')
+                compiled_bytes += hex(int(bitcode, base=2))[2:].zfill(2) + ((' ' + hex(int(data, base=2))[2:].zfill(2) + ' ') if data != None else ' ')
 
         return compiled_bytes
 
@@ -39,6 +39,9 @@ class Assembly:
 
     def MOV(self, reg_a, reg_b):
         return f'0011{reg_a}{reg_b}'
+    
+    def KBD(self, reg_a, reg_b):
+        return f'0100{reg_a}00'
 
     def JMP(self, reg_a, reg_b):
         return f'01010000'
