@@ -1,0 +1,4 @@
+LDD R0 7
+LDD R3 8
+ADD R3 R0
+HLT
