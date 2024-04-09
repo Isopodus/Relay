@@ -1,0 +1,3 @@
+LDD R0 2
+SUB R0 R0
+HLT

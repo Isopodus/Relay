@@ -83,4 +83,4 @@ class Assembly:
         return f'11100000'
 
     def NOP(self, reg_a, reg_b):
-        return f'11111111'
+        return f'00000000'

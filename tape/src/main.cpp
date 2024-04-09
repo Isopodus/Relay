@@ -1,63 +1,80 @@
 #include <Arduino.h>
 
-int s = 5;
-int d = 150;
+int dataStart = 2;
+int addrPin = 10;
+int ramPin = 11;
+
+void setOutput(byte value) {
+	for (int j = 0; j < 8; j++) {
+		digitalWrite(dataStart + j, (value >> j) & 1);
+	}
+}
 
 void setup() {
-	for (int i = 0; i < 6; i++)
+	Serial.begin(115200);
+
+	// Define data output pins
+	for (byte i = dataStart; i < dataStart + 8; i++)
 	{
-		pinMode(2 + i, OUTPUT);
-		digitalWrite(2 + i, LOW);
+		pinMode(i, OUTPUT);
+		digitalWrite(i, LOW);
 	}
-	pinMode(8, INPUT);
+	
+	// Define control pins
+	pinMode(addrPin, OUTPUT);
+	pinMode(ramPin, OUTPUT);
 
-	pinMode(9, INPUT_PULLUP);
+	digitalWrite(addrPin, LOW);
+	digitalWrite(ramPin, LOW);
 
-	pinMode(12, OUTPUT);
-	pinMode(13, OUTPUT);
-	digitalWrite(12, LOW);
-	digitalWrite(13, LOW);
-
-	digitalWrite(s + 2, HIGH);
+	setOutput(0);
 }
-
-void doClock() {
-	digitalWrite(12, HIGH);
-	delay(d / 6);
-	digitalWrite(13, HIGH);
-	delay(d / 6);
-	digitalWrite(13, LOW);
-	delay(d / 6);
-	digitalWrite(12, LOW);
-	delay(d / 6);
-}
+unsigned long lastReceivedTime = 0;
+const unsigned long RESET_TIMEOUT = 2000;
+int addr = 0;
+bool reading = false;
 
 void loop()
 {
-	if (digitalRead(9) == LOW || digitalRead(8) == HIGH) {
-		doClock();
+	if (Serial.available() > 0) {
+		if (!reading) { 
+			digitalWrite(addrPin, HIGH);
+			digitalWrite(ramPin, HIGH);
+			delay(100);
+			digitalWrite(addrPin, LOW);
+			digitalWrite(ramPin, LOW);
+			delay(20);
+		}
 
-		digitalWrite(s + 2, LOW);
-		delay(d / 6);
+		reading = true;
+    	lastReceivedTime = millis();
+		byte data = Serial.read();
+		// digitalWrite(ramPin, HIGH);
 
-		s--;
-		if (s < 0) {
-			s = 5;
-		} 
-		digitalWrite(s + 2, HIGH);
-		delay(d / 6);
-	} else {
-		// s = 5;
-		digitalWrite(13, LOW);
-		digitalWrite(12, LOW);
-		// for (int i = 0; i < 6; i++)
-		// {
-		// 	digitalWrite(2 + i, LOW);
-		// }
-		
-		// digitalWrite(s + 2, HIGH);
-	}
-	if (digitalRead(8) == LOW) {
-		delay(500);
+		// Set the address register
+		setOutput(addr);
+		delay(20);
+		digitalWrite(addrPin, HIGH);
+		delay(20);
+		digitalWrite(addrPin, LOW);
+		delay(20);
+
+		// Convert each hex value to binary and set corresponding pins as output
+		setOutput(data);
+		delay(20);
+		digitalWrite(ramPin, HIGH);
+		delay(20);
+		digitalWrite(ramPin, LOW);
+		delay(20);
+		setOutput(0);
+		// delay(20);
+
+		addr++;
+		Serial.write(1);
+	} else if (millis() - lastReceivedTime > RESET_TIMEOUT && reading) {
+		// Serial.flush();
+		// digitalWrite(ramPin, LOW);
+		reading = false;
+		addr = 0;
 	}
 }

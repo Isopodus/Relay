@@ -1,4 +1,3 @@
-NOP
 KBD R0
 KBD R1
 ADD R0 R1
