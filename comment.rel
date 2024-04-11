@@ -1,0 +1,7 @@
+KBD R0 ; Save first number to R0
+KBD R1 ; Save second number to R1
+
+; Add values in R0 and R1 and store result in R0
+ADD R0 R1 
+
+HLT ; End of program

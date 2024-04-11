@@ -1,0 +1,36 @@
+; Simple subroutine call with variable return point
+LDD R0 2
+LDD R1 255
+
+; Call MUL2 subroutine. Setup a return point before that (:RP)
+; There's no JMP by register value, so replace a value in memory instead
+LDD R2 :RP1     ; Return point address
+LDD R3 :MUL2+   ; Where to put that address at (MUL2 final JMP)
+SDR R2 R3       ; Replace the final JMP of MUL2
+JMP :MUL2
+
+:RP3
+LDD R1 3
+JMP :END
+
+:RP2
+LDD R1 2
+LDD R2 :RP3
+LDD R3 :MUL2+
+SDR R2 R3
+JMP :MUL2
+
+:RP1
+LDD R1 1
+LDD R2 :RP2
+LDD R3 :MUL2+
+SDR R2 R3
+JMP :MUL2
+
+:END
+HLT
+
+:MUL2
+    ADD R0 R0
+    :MUL2+
+    JMP 0       ; No need to set real return address as it will be replaced after

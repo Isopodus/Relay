@@ -1,0 +1,11 @@
+; Simple loop counting from 5 to 0
+LDD R0 5
+LDD R1 1
+
+:LOOP
+    SUB R0 R1 ; Subtract 1 until reaching 0 to redirect to HLT
+    JMZ :END
+    JMP :LOOP ; Start loop again if not reached 0
+
+:END
+HLT

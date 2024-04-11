@@ -6,21 +6,22 @@ import time
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         with open(sys.argv[1], 'r') as file:
-            ser = serial.Serial('/dev/ttyUSB0', 115200)
+            ser = serial.Serial('/dev/tty.usbserial-1410', 115200)
             time.sleep(3)
 
             program = file.read()
             assembly = Assembly()
             bytecode = assembly.compile(program)
             print(f"Program size: {len(bytecode.split(' ')) - 1} bytes")
+            print(bytecode)
+            print('Uploading...')
             
             for word in bytecode.split(' '):
                 if word:
                     ser.write(int(word, 16).to_bytes(1, byteorder='big'))
                     ser.read(1)
-                    print(word, end=' ')
 
             ser.close()
-            print()
+            print('Done!')
     else:
         print('No program filename specified!')

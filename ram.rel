@@ -1,0 +1,10 @@
+; RAM operations
+; Store a number in RAM, then retrieve it
+
+LDD R0 64
+LDD R1 128
+
+SDR R0 R1
+LDR R3 R1
+
+HLT
