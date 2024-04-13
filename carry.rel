@@ -1,0 +1,5 @@
+LDD R0 255
+LDD R3 1
+ADD R3 R0 ; Currently will not produce valid result and may not enable carry flag
+
+HLT

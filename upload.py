@@ -7,7 +7,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         with open(sys.argv[1], 'r') as file:
             ser = serial.Serial('/dev/tty.usbserial-1410', 115200)
-            time.sleep(3)
+            time.sleep(2)
 
             program = file.read()
             assembly = Assembly()
